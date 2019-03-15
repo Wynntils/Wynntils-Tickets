@@ -16,9 +16,9 @@ const DiscordStrategy = require('passport-discord').Strategy;
 // , 'email', 'guilds', 'guilds.join'
 const scopes = ['identify'];
 
-const CLIENT_ID = '556081164398624769';
-const CLIENT_SECRET = 'fxWZmLRaIlIPcqgSeonADStQBvjLvQud';
-const CALLBACK_URL = 'https://tickets.wynntils.com/callback';
+const CLIENT_ID = config.CLIENT_ID;
+const CLIENT_SECRET = config.CLIENT_SECRET;
+const CALLBACK_URL = config.CALLBACK_URL;
 
 passport.use(new DiscordStrategy({
     clientID: CLIENT_ID,
