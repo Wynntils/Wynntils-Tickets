@@ -57,10 +57,12 @@ app.get('/info', checkAuth, function(req, res) {
   r.table('tickets').getAll(userID, { index: 'user' }).orderBy('case').run((err, callback) => {
     // res.json(callback);
     let html = '';
+    let ticketName;
     console.log(callback.length);
     for (x in callback) {
+      if (callback[x].name !== undefined) ticketName = '"' + callback[x].name + '"'; else ticketName = '#' + callback[x].case;
       console.log(callback[x]);
-      html += '<a href="/ticket/'+callback[x].id+'">View ticket #' + callback[x].case + '</a><br>';
+      html += '<a href="/ticket/'+callback[x].id+'">View ticket ' + ticketName + '</a><br>';
     }
     res.send(html);
     });
@@ -81,7 +83,7 @@ app.get('/ticket/:ticketID', checkAuth, function (req, res) {
 
 function checkAuth(req, res, next) {
   if (req.isAuthenticated()) return next();
-  res.send('not logged in :(');
+  res.redirect('/');
 }
 
 let r = rethink({
