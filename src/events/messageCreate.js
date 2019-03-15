@@ -17,13 +17,15 @@ module.exports = (bot, r) => {
   // Listen for ticket replies
   bot.on('messageCreate', (msg) => {
     if (msg.author.bot) return;
-    if (!msg.channel.name.startsWith('ticket-')) return;
-    r.table('chatlogs').get(msg.channel.name.replace('ticket-', '')).run((err, callback) => {
+    if (msg.channel.parentID !== bot.config.category) return;
+    let id = msg.channel.name.split("-").slice(-1)[0];
+    r.table('chatlogs').get(msg.channel.id).run((err, callback) => {
       if (!callback) {
         require('crypto').randomBytes(48, (err, buffer) => {
           r.table('chatlogs').insert({
-            id: msg.channel.name.replace('ticket-', ''),
+            id: msg.channel.id,
             secret: buffer.toString('hex'),
+            case: id,
             logs: [
               {
                 id: msg.author.id,
@@ -39,7 +41,7 @@ module.exports = (bot, r) => {
           user: msg.author.username + '#' + msg.author.discriminator,
           content: msg.content
         });
-        r.table('chatlogs').get(msg.channel.name.replace('ticket-', '')).update(callback).run();
+        r.table('chatlogs').get(msg.channel.id).update(callback).run();
       }
     });
   });
