@@ -60,7 +60,7 @@ app.get('/info', checkAuth, function(req, res) {
     let ticketName;
     console.log(callback.length);
     for (x in callback) {
-      if (callback[x].name !== undefined) ticketName = '#' + callback[x].case + ' - ' + callback[x].name; else ticketName = '#' + callback[x].case;
+      if (callback[x].name !== undefined) ticketName = '#' + callback[x].case + ' - ' + escapeHtml(callback[x].name); else ticketName = '#' + callback[x].case;
       console.log(callback[x]);
       html += '<a href="/ticket/'+callback[x].id+'">View ticket ' + ticketName + '</a><br>';
     }
