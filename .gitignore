@@ -62,3 +62,4 @@ typings/
 
 # Don't reveal our secrets!
 src/config.json
+package-lock.json
