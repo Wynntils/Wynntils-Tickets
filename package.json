@@ -1,14 +1,15 @@
 {
   "name": "ticket-bot",
   "version": "1.0.0",
-  "description": "Open-Source, lightweight Discord ticket bot",
+  "description": "Wynntils Ticket bot with web integration",
   "main": "src/index.js",
   "scripts": {
-    "test": "npm i"
+    "test": "npm i",
+    "start": "npx pm2 start src/index.js --watch"
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/MercyDoesCode/discord-tickets.git"
+    "url": "git+https://github.com/Wynntils/Wynntils-Tickets.git"
   },
   "keywords": [
     "Discord",
@@ -19,14 +20,21 @@
   "author": "MercyDoesCode",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/MercyDoesCode/discord-tickets/issues"
+    "url": "https://github.com/Wynntils/Wynntils-Tickets/issues"
   },
-  "homepage": "https://github.com/MercyDoesCode/discord-tickets#readme",
+  "homepage": "https://wynntils.com",
   "dependencies": {
     "chalk": "^2.4.1",
     "dateformat": "^3.0.3",
     "eris": "^0.8.6",
     "express": "^4.16.3",
+    "express-session": "^1.15.6",
+    "passport": "^0.4.0",
+    "passport-discord": "^0.1.3",
+    "pug": "^2.0.3",
     "rethinkdbdash": "^2.3.31"
+  },
+  "devDependencies": {
+    "pm2": "^2.10.3"
   }
 }

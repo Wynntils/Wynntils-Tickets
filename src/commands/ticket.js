@@ -28,6 +28,7 @@ module.exports = {
           let Support = msg.channel.guild.roles.find(role => role.name === "Support Team");
           channel.editPermission(Support.id, 3072, 0, "role", "New Ticket");
           channel.editPermission(msg.author.id, 3072, 0, "member", "New Ticket");
+          channel.editPosition(0);
           r.table('tickets').insert({
             user: msg.author.id,
             case: (new Array(4).join('0') + (parseInt(callback[0].case) + 1)).substr(-4),

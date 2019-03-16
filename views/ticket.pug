@@ -1,0 +1,12 @@
+extends default
+
+block header
+
+block content
+    div.ticket
+        h1.ticketName #{ticket.name}
+        each chat in chatlog.logs
+            p.chatline
+                span.user #{chat.user}
+                |  #{chat.content}
+        a(href='/info') << Back

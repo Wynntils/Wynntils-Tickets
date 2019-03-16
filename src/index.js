@@ -44,6 +44,7 @@ passport.deserializeUser(function(user, done) {
 });
 app.use(passport.initialize());
 app.use(passport.session());
+app.set('view engine', 'pug');
 app.get('/', passport.authenticate('discord', { scope: scopes }), function(req, res) {});
 app.get('/callback',
     passport.authenticate('discord', { failureRedirect: '/' }), function(req, res) { res.redirect('/info') } // auth success
@@ -70,14 +71,21 @@ app.get('/info', checkAuth, function(req, res) {
 
 app.get('/ticket/:ticketID', checkAuth, function (req, res) {
   // res.send(req.params)
-  let ticketName;
+  var ticket, chatlog;
   r.table('tickets').get(req.params.ticketID).run((err, callback) => {
     if (callback.name !== undefined) ticketName = callback.name;
+    ticket = callback;
   });
   r.table('chatlogs').get(req.params.ticketID).run((err, callback) => {
     console.log(err);
     if (ticketName === undefined) name = '#' + callback.case; else name = escapeHtml(ticketName);
-    res.send(`<h1>Ticket ${name}</h1><br>` + callback.logs.map(m => '<b>[' + escapeHtml(m.user) + ']</b>: ' + escapeHtml(m.content)).join('<br/>'));
+    // res.send(`<h1>Ticket ${name}</h1><br>` + callback.logs.map(m => '<b>[' + escapeHtml(m.user) + ']</b>: ' + escapeHtml(m.content)).join('<br/>'));
+    chatlog = callback;
+    res.render('ticket', {
+      title: `Ticket #${ticket.case}`,
+        ticket,
+        chatlog
+    });
   });
 });
 
