@@ -28,19 +28,46 @@ module.exports = {
           let Support = msg.channel.guild.roles.find(role => role.name === "Support Team");
           channel.editPermission(Support.id, 3072, 0, "role", "New Ticket");
           channel.editPermission(msg.author.id, 3072, 0, "member", "New Ticket");
-          msg.channel.edit({ topic: 'Message: ' + (args.length > 0 ? args.join(' ') : 'None') });
           r.table('tickets').insert({
             user: msg.author.id,
             case: (new Array(4).join('0') + (parseInt(callback[0].case) + 1)).substr(-4),
             id: channel.id
           }).run();
+          // console.log(msg.author);
+          //448164725990359040
+          let modChannel = msg.channel.guild.channels.find(channel => channel.id === '448164725990359040');
+          modChannel.createMessage({
+            embed: {
+              color: 7531934,
+              description: `<@${msg.author.id}> has opened a new ticket <#${channel.id}>`,
+              fields: [
+                {
+                  name: 'Subject',
+                  value: (args.length > 0 ? args.join(' ') : 'None')
+                }
+              ]
+            }
+          });
           channel.createMessage({
             embed: {
+              color: 7531934,
               title: 'ID: #' + (new Array(4).join('0') + (parseInt(callback[0].case) + 1)).substr(-4),
-              description: 'Message: ' + (args.length > 0 ? args.join(' ') : 'None')
+              description:
+                `Hello, <@${msg.author.id}> Thank you for reaching out to us!\n\n` +
+                'If you are requesting for support, please describe what you are unsure of and, if possible, how we can assist you.\n\n' +
+                'If you are reporting a bug/glitch, please describe the issue and upload any relevant file (screenshots, videos, execution logs, etc.) that may allow us to know exactly what the issue is.\n\n' +
+                'If you are reporting a crash, please describe what you were doing that had triggered the crash and upload the text file containing the crash report. This can be found in the crash-reports subfolder of the folder that contains all other files relating to Minecraft; most people have their crash-reports subfolder in their .minecraft folder.\n\n' +
+                'We cannot guarantee we will be able to respond, but rest assured that we will read your ticket.\n\n',
+              fields: [
+                {
+                  name: 'Subject',
+                  value: (args.length > 0 ? args.join(' ') : 'None')
+                }
+              ]
             }
           }).then(ticket => {
             let id = ticket.channel.name.split("-").slice(-1)[0];
+            ticket.channel.edit({ topic: 'Message: ' + (args.length > 0 ? args.join(' ') : 'None') });
             r.table('chatlogs').get(ticket.channel.id).run((err, callback) => {
               if (!callback) {
                 require('crypto').randomBytes(48, (err, buffer) => {
