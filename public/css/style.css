@@ -50,3 +50,7 @@ body {
   color: #FFFFFF;
   margin-bottom: 50px;
 }
+
+.chatline .user {
+  font-weight: 600;
+}

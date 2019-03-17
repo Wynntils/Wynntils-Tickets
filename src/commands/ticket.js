@@ -11,16 +11,16 @@ module.exports = {
   execute: (bot, r, msg, args) => {
     r.table('tickets').getAll(msg.author.id, { index: 'user' }).run((err, callback) => {
       // console.log(callback);
-      for (call in callback) {
-        // console.log(callback[call]);
-        if (err) return bot.error(err.stack);
-        if (callback[call] && (callback[call].length !== 0)) {
-          if (!callback[call].closed) {
-            msg.channel.createMessage(':x: | You already have an open ticket (<#' + callback[call].id + '>)');
-            return;
-          }
-        }
-      }
+      // for (call in callback) {
+      //   // console.log(callback[call]);
+      //   if (err) return bot.error(err.stack);
+      //   if (callback[call] && (callback[call].length !== 0)) {
+      //     if (!callback[call].closed) {
+      //       msg.channel.createMessage(':x: | You already have an open ticket (<#' + callback[call].id + '>)');
+      //       return;
+      //     }
+      //   }
+      // }
       r.table('tickets').orderBy({index: r.desc('case')}).run((err, callback) => {
         if (err) return bot.error(err.stack);
         msg.channel.guild.createChannel('ticket-' + (new Array(4).join('0') + (parseInt(callback[0].case) + 1)).substr(-4), 0, 'New ticket', bot.config.category).then(channel => {
@@ -28,7 +28,7 @@ module.exports = {
           let Support = msg.channel.guild.roles.find(role => role.name === "Support Team");
           channel.editPermission(Support.id, 3072, 0, "role", "New Ticket");
           channel.editPermission(msg.author.id, 3072, 0, "member", "New Ticket");
-          channel.editPosition(0);
+          // channel.editPosition(0);
           r.table('tickets').insert({
             user: msg.author.id,
             case: (new Array(4).join('0') + (parseInt(callback[0].case) + 1)).substr(-4),
@@ -36,6 +36,11 @@ module.exports = {
           }).run();
           // console.log(msg.author);
           //448164725990359040
+          msg.channel.createMessage({
+            embed: {
+              description: `:white_check_mark: The channel <#${channel.id}> has been created for you.`
+            }
+          });
           let modChannel = msg.channel.guild.channels.find(channel => channel.id === '448164725990359040');
           modChannel.createMessage({
             embed: {
@@ -67,6 +72,7 @@ module.exports = {
               ]
             }
           }).then(ticket => {
+            channel.createMessage(`<@${msg.author.id}> Please report your issue/ask your question below.`);
             let id = ticket.channel.name.split("-").slice(-1)[0];
             ticket.channel.edit({ topic: 'Message: ' + (args.length > 0 ? args.join(' ') : 'None') });
             r.table('chatlogs').get(ticket.channel.id).run((err, callback) => {
@@ -78,7 +84,7 @@ module.exports = {
                     case: id,
                     logs: [
                       {
-                        id: msg.author.id,
+                        id: msg.id,
                         user: msg.author.username + '#' + msg.author.discriminator,
                         content: msg.content
                       }
@@ -87,7 +93,7 @@ module.exports = {
                 });
               } else {
                 callback.logs.push({
-                  id: msg.author.id,
+                  id: msg.id,
                   user: msg.author.username + '#' + msg.author.discriminator,
                   content: msg.content
                 });

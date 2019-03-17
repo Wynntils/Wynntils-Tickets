@@ -30,61 +30,114 @@ function(accessToken, refreshToken, profile, cb) {
     process.nextTick(function() {
       return cb(null, profile);
     });
-  }));
+}));
+
 app.use(session({
     secret: 'keyboard cat',
     resave: false,
     saveUninitialized: false
 }));
+
 passport.serializeUser(function(user, done) {
   done(null, user);
 });
+
 passport.deserializeUser(function(user, done) {
   done(null, user);
 });
+
 app.use(passport.initialize());
+
 app.use(passport.session());
+
 app.set('view engine', 'pug');
-app.get('/', passport.authenticate('discord', { scope: scopes }), function(req, res) {});
+
+app.use(express.static(__dirname + '/public'));
+
+app.get('/', passport.authenticate('discord', { scope: scopes }), function (req, res) { });
+
 app.get('/callback',
     passport.authenticate('discord', { failureRedirect: '/' }), function(req, res) { res.redirect('/info') } // auth success
 );
+
 app.get('/logout', function(req, res) {
     req.logout();
     res.redirect('/');
 });
-app.get('/info', checkAuth, function(req, res) {
+
+app.get('/info', checkAuth, function (req, res) {
   let userID = req.user.id;
-  r.table('tickets').getAll(userID, { index: 'user' }).orderBy('case').run((err, callback) => {
-    // res.json(callback);
-    let html = '';
-    let ticketName;
-    console.log(callback.length);
-    for (x in callback) {
-      if (callback[x].name !== undefined) ticketName = '#' + callback[x].case + ' - ' + escapeHtml(callback[x].name); else ticketName = '#' + callback[x].case;
-      console.log(callback[x]);
-      html += '<a href="/ticket/'+callback[x].id+'">View ticket ' + ticketName + '</a><br>';
+  var userRole;
+  r.table('users').get(userID).run((err, callback) => {
+    if (callback.role !== undefined) userRole = callback.role; else userRole = 'USER';
+    if (userRole === "SUPPORT") {
+      r.table('tickets').orderBy('case').run((err, callback) => {
+        let html = '';
+        let ticketName;
+        // console.log(callback.length);
+        for (x in callback) {
+          if (callback[x].case === '0') continue;
+          if (callback[x].name !== undefined) ticketName = '#' + callback[x].case + ' - ' + escapeHtml(callback[x].name); else ticketName = '#' + callback[x].case;
+          // console.log(callback[x]);
+          if (callback[x].closed) closed = " - Closed"; else closed = " - Open";
+          html += '<a href="/ticket/' + callback[x].id + '">View ticket ' + ticketName + `</a>${closed}<br>`;
+        }
+        res.send(html);
+      });
+    } else if(userRole === "USER"){
+      r.table('tickets').getAll(userID, { index: 'user' }).orderBy('case').run((err, callback) => {
+        let html = '';
+        let ticketName;
+        // console.log(callback.length);
+        for (x in callback) {
+          if (callback[x].name !== undefined) ticketName = '#' + callback[x].case + ' - ' + escapeHtml(callback[x].name); else ticketName = '#' + callback[x].case;
+          // console.log(callback[x]);
+          html += '<a href="/ticket/' + callback[x].id + '">View ticket ' + ticketName + '</a><br>';
+        }
+        res.send(html);
+      });
+    } else {
+      res.send('User Role not found' + userRole);
     }
-    res.send(html);
-    });
+  });
 });
 
 app.get('/ticket/:ticketID', checkAuth, function (req, res) {
   // res.send(req.params)
   var ticket, chatlog;
   r.table('tickets').get(req.params.ticketID).run((err, callback) => {
-    if (callback.name !== undefined) ticketName = callback.name;
+    if (callback.name !== undefined) ticketName = '#' + callback.case + ' - ' + escapeHtml(callback.name); else ticketName = '#' + callback.case;
     ticket = callback;
   });
   r.table('chatlogs').get(req.params.ticketID).run((err, callback) => {
-    console.log(err);
-    if (ticketName === undefined) name = '#' + callback.case; else name = escapeHtml(ticketName);
+    // console.log(err);
     // res.send(`<h1>Ticket ${name}</h1><br>` + callback.logs.map(m => '<b>[' + escapeHtml(m.user) + ']</b>: ' + escapeHtml(m.content)).join('<br/>'));
     chatlog = callback;
     res.render('ticket', {
-      title: `Ticket #${ticket.case}`,
+      title: `Ticket ${ticketName}`,
         ticket,
         chatlog
+    });
+  });
+});
+
+app.get('/t/:secret', (req, res) => {
+  if (!req.params.secret || req.params.secret === undefined) return res.send('Invalid secret');
+  var ticket, chatlog;
+  r.table('chatlogs').getAll(req.params.secret, { index: 'secret' }).run((err, callback) => {
+    if (callback[0] === undefined) return res.send('Invalid secret');
+    callback = callback[0];
+    chatlog = callback;
+    // // console.log(callback.id);
+    r.table('tickets').get(callback.id).run((err, cb) => {
+      // // console.log(cb);
+      if (cb.name !== undefined) ticketName = '#' + cb.case + ' - ' + escapeHtml(cb.name); else ticketName = '#' + cb.case;
+      ticket = cb;
+      res.render('ticket', {
+        title: `Ticket ${ticketName}`,
+          ticket,
+          chatlog
+      });
     });
   });
 });
@@ -109,15 +162,6 @@ const escapeHtml = (unsafe) => {
   .replace(/"/g, "&quot;")
   .replace(/'/g, "&#039;");
 };
-
-app.get('/t/:secret', (req, res) => {
-  if (!req.params.secret || req.params.secret === undefined) return res.send('Invalid secret');
-  r.table('chatlogs').getAll(req.params.secret, { index: 'secret' }).run((err, callback) => {
-    if (callback[0] === undefined) return res.send('Invalid secret');
-    callback = callback[0];
-    res.send(`<h1>Ticket #${callback.case}</h1><br>` + callback.logs.map(m => '<b>[' + escapeHtml(m.user) + ']</b>: ' + escapeHtml(m.content)).join('<br/>'));
-  });
-});
 
 const bot = new Eris(config.token);
 

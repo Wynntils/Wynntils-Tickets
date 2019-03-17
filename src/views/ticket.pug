@@ -1,0 +1,8 @@
+extends default
+
+block content
+    div.ticket
+        each chat in chatlog.logs
+            p.chatline
+                span.user #{chat.user}
+                |  #{chat.content}

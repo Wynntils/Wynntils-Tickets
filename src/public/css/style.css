@@ -1,0 +1,84 @@
+/* ==========================================================================
+   #STYLES
+   ========================================================================== */
+
+/**
+ *
+ * [1]: Inheriting box sizing slightly better best-practice
+ * https://css-tricks.com/inheriting-box-sizing-probably-slightly-better-best-practice/
+ *
+ * [2]: WordPress System font-stack
+ */
+
+/* RESET
+   ========================================================================== */
+
+html {
+	box-sizing: border-box;
+}
+
+*,
+*::before,
+*::after {
+	box-sizing: inherit; /* [1] */
+	margin: 0;
+	padding: 0;
+}
+
+/* FONTS
+   ========================================================================== */
+
+body {
+	font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
+		Oxygen-Sans, Ubuntu, Cantarell, "Helvetica Neue", sans-serif; /* [2] */
+}
+
+/* Header
+   ========================================================================== */
+
+.header {
+	width: 100%;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	height: 80px;
+	background-color: #525286;
+	color: #ffffff;
+}
+
+.footer {
+	width: 100%;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	height: 80px;
+	background-color: #525286;
+	color: #ffffff;
+	position: absolute;
+	bottom: 0;
+}
+
+.chatline .user {
+	font-weight: 600;
+}
+
+.backLink {
+	position: absolute;
+	left: 20px;
+}
+
+.ticket {
+	height: 100%;
+	width: 100%;
+}
+
+.chatline {
+	padding-left: 10px;
+}
+
+p.chatline:nth-child(2n+1) {
+  background-color: lightgray;
+}
+p.chatline:nth-child(2n) {
+  background-color: aliceblue;
+}
