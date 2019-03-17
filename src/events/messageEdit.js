@@ -21,19 +21,22 @@ module.exports = (bot, r) => {
         console.log('Delete', msg.id);
         r.table('chatlogs').get(msg.channel.id).run((err, callback) => {
             if (callback) {
+                var deleteme = false;
                 var index = callback.logs.findIndex(x => x.id === msg.id);
-                console.log(index);
-                console.log(callback.logs[index]);
-                delete callback.logs[index];
-                var tmpArray = [];
-                for(var i in callback.logs) {
-                    if(callback.logs[i]) {
-                        tmpArray.push(callback.logs[i]);
+                if (deleteme) {
+                    delete callback.logs[index];
+                    var tmpArray = [];
+                    for (var i in callback.logs) {
+                        if (callback.logs[i]) {
+                            tmpArray.push(callback.logs[i]);
+                        }
                     }
+                    callback.logs = tmpArray;
+                    r.table('chatlogs').get(msg.channel.id).update(callback).run();
+                } else {
+                    callback.logs[index].deleted = true;
+                    r.table('chatlogs').get(msg.channel.id).update(callback).run();
                 }
-                callback.logs = tmpArray;
-                console.log(callback.logs[index]);
-                r.table('chatlogs').get(msg.channel.id).update(callback).run();
             }
         });
     });

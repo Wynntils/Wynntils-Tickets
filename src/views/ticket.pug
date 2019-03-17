@@ -5,4 +5,8 @@ block content
         each chat in chatlog.logs
             p.chatline
                 span.user #{chat.user}
+                - if (typeof(chat.deleted) !== 'undefined'){
+                s #{chat.content}
+                -}else{
                 |  #{chat.content}
+                -}
