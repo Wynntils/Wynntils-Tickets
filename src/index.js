@@ -69,7 +69,7 @@ app.get('/info', checkAuth, function (req, res) {
   let userID = req.user.id;
   var userRole;
   r.table('users').get(userID).run((err, callback) => {
-    if (callback.role !== undefined) userRole = callback.role; else userRole = 'USER';
+    if (callback !== null) userRole = callback.role; else userRole = 'USER';
     if (userRole === "SUPPORT") {
       r.table('tickets').orderBy('case').run((err, callback) => {
         let html = '';
