@@ -51,7 +51,7 @@ module.exports = (bot, r) => {
   bot.on('messageCreate', (msg) => {
     if (msg.author.bot) return;
     if (msg.channel.parentID !== bot.config.category) return;
-    if (msg.attachments !== undefined) console.log(msg.attachments);
+    if (msg.attachments === undefined) return;
     for (let x in msg.attachments) {
       r.table('chatlogs').get(msg.channel.id).run((err, callback) => {
         if (!callback) {
