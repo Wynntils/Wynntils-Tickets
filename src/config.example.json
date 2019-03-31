@@ -1,6 +1,6 @@
 {
   "token": "BOT TOKEN",
-  "prefix": ".",
+  "prefix": "-",
   "server": "SERVER ID",
   "category": "CHANNEL CATEGORY ID",
   "port": 3001,
