@@ -13,7 +13,7 @@ module.exports = {
       if (msg.mentions.length >= 1) {
         let addedUsers = [];
         for (user in msg.mentions) {
-          channel.editPermission(user.id, 3072, 0, "member", `Added ${user.username} to #${msg.channel.name}`);
+          msg.channel.editPermission(user.id, 3072, 0, "member", `Added ${user.username} to #${msg.channel.name}`);
           addedUsers.push(`<@${user.username}#${user.discriminator}`)
         }
         if (addedUsers.length > 0) {
