@@ -1,6 +1,6 @@
 {
   "name": "ticket-bot",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "description": "Wynntils Ticket bot with web integration",
   "main": "src/index.js",
   "scripts": {
