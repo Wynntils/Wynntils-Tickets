@@ -2,7 +2,7 @@ module.exports = {
   info: {
     name: 'Add',
     desc: 'Adds a user to the ticket',
-    help: 'add',
+    help: 'add [user(s)]',
     uses: [
       'add'
     ]
@@ -10,19 +10,16 @@ module.exports = {
   execute: (bot, r, msg, args) => {
     if (msg.channel.parentID !== bot.config.category) return;
     if (msg.member.permission.has('manageMessages')) {
-      if (args.length === 1) {
-        let user = msg.mentions.members.first();
-        if (user === undefined) {
-          user = message.guild.members.find('displayName', args[0])
+      if (msg.mentions.length >= 1) {
+        let addedUsers = [];
+        for (user in msg.mentions) {
+          channel.editPermission(user.id, 3072, 0, "member", `Added ${user.username} to #${msg.channel.name}`);
+          addedUsers.push(`<@${user.username}#${user.discriminator}`)
         }
-        if (user !== undefined) {
-          msg.channel.overwritePermissions(user, {
-            SEND_MESSAGES: true,
-            READ_MESSAGES: true
-          });
-          msg.channel.createMessage(`${msg.author} added ${user} to this ticket.`)
+        if (addedUsers.length > 0) {
+          msg.channel.createMessage(`${msg.author} added ${addedUsers.join(', ')} to this ticket.`)
         } else {
-          msg.channel.createMessage(`Could not find user - ${args[0]}.`);
+          msg.channel.createMessage(`Could not find user - ${args}.`);
         }
       } else {
         msg.createMessage('Please provide a user to be added to this ticket.')
