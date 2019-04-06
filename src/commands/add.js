@@ -13,6 +13,7 @@ module.exports = {
       if (msg.mentions.length >= 1) {
         let addedUsers = [];
         for (var user in msg.mentions) {
+          console.log(user);
           msg.channel.editPermission(user.id, 3072, 0, "member", `Added ${user.username} to #${msg.channel.name}`);
           addedUsers.push(`<@${user.id}>`);
         }
