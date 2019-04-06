@@ -9,6 +9,25 @@ module.exports = {
     ]
   },
   execute: (bot, r, msg, args) => {
-    msg.channel.createMessage('Command List: ```' + bot.commands.map((c) => bot.config.prefix + c.info.help.toLowerCase() + ' - ' + c.info.desc).join('\n') + '```');
+    var e = {
+      embed: {
+        title: 'Ticket Help',
+        color: 7531934,
+        fields: [],
+        footer: {
+          icon_url: bot.user.avatarURL,
+          text: "Wynntils Tickets"
+        }
+      }
+    };
+
+    bot.commands.map(cmd => {
+      e.embed.fields.push({
+        name: bot.config.prefix + cmd.info.help.toLowerCase(),
+        value: cmd.info.desc
+      });
+    });
+
+    msg.channel.createMessage(e);
   }
-}
+};
