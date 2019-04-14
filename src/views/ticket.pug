@@ -10,3 +10,6 @@ block content
                 -}else{
                 |  #{chat.content}
                 -}
+                - if (typeof(chat.attachments) !== 'undefined'){
+                    each attachment in chat.attachments
+                    img.attachment(src=attachment.url alt=attachment.filename)

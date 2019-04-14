@@ -52,32 +52,32 @@ module.exports = (bot, r) => {
     if (msg.author.bot) return;
     if (msg.channel.parentID !== bot.config.category) return;
     if (msg.attachments === undefined) return;
-    for (let x in msg.attachments) {
-      r.table('chatlogs').get(msg.channel.id).run((err, callback) => {
-        if (!callback) {
-          require('crypto').randomBytes(48, (err, buffer) => {
-            r.table('chatlogs').insert({
-              id: msg.channel.id,
-              secret: buffer.toString('hex'),
-              case: id,
-              logs: [
-                {
-                  id: msg.id,
-                  user: msg.author.username + '#' + msg.author.discriminator,
-                  content: msg.attachments[x].url
-                }
-              ]
-            }).run();
-          });
-        } else {
-          callback.logs.push({
-            id: msg.id,
-            user: msg.author.username + '#' + msg.author.discriminator,
-            content: msg.attachments[x].url
-          });
-          r.table('chatlogs').get(msg.channel.id).update(callback).run();
-        }
-      });
-    }
+    r.table('chatlogs').get(msg.channel.id).run((err, callback) => {
+      if (!callback) {
+        require('crypto').randomBytes(48, (err, buffer) => {
+          r.table('chatlogs').insert({
+            id: msg.channel.id,
+            secret: buffer.toString('hex'),
+            case: id,
+            logs: [
+              {
+                id: msg.id,
+                user: msg.author.username + '#' + msg.author.discriminator,
+                content: msg.content,
+                attachments: msg.attachments
+              }
+            ]
+          }).run();
+        });
+      } else {
+        callback.logs.push({
+          id: msg.id,
+          user: msg.author.username + '#' + msg.author.discriminator,
+          content: msg.content,
+          attachments: msg.attachments
+        });
+        r.table('chatlogs').get(msg.channel.id).update(callback).run();
+      }
+    });
   });
 };
