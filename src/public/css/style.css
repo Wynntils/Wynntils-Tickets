@@ -80,6 +80,12 @@ body {
 	padding-left: 10px;
 }
 
+.attachment{
+	width: 50%;
+    display: block;
+    padding: 10px;
+}
+
 p.chatline:nth-child(2n+1) {
   background-color: lightgray;
 }

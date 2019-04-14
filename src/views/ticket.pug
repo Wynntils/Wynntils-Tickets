@@ -12,5 +12,5 @@ block content
                 -}
                 - if (typeof(chat.attachments) !== 'undefined'){
                 each attachment in chat.attachments
-                    img.attachment(src=attachment.url alt=attachment.filename)
+                    img.attachment(src=attachment.url title=attachment.filename)
                 - }
