@@ -44,6 +44,8 @@ body {
 	height: 80px;
 	background-color: #525286;
 	color: #ffffff;
+	position: fixed;
+	top: 0;
 }
 
 .footer {
@@ -71,6 +73,7 @@ body {
 	height: 100%;
 	width: 100%;
 	margin-bottom: 80px;
+	margin-top: 80px;
 }
 
 .chatline {
