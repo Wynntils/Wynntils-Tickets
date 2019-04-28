@@ -10,32 +10,20 @@ module.exports = {
   },
   execute: (bot, r, msg, args) => {
     r.table('tickets').getAll(msg.author.id, { index: 'user' }).run((err, callback) => {
-      // console.log(callback);
-      // for (call in callback) {
-      //   // console.log(callback[call]);
-      //   if (err) return bot.error(err.stack);
-      //   if (callback[call] && (callback[call].length !== 0)) {
-      //     if (!callback[call].closed) {
-      //       msg.channel.createMessage(':x: | You already have an open ticket (<#' + callback[call].id + '>)');
-      //       return;
-      //     }
-      //   }
-      // }
       r.table('tickets').orderBy({index: r.desc('case')}).run((err, callback) => {
         if (err) return bot.error(err.stack);
-        msg.channel.guild.createChannel('ticket-' + (new Array(4).join('0') + (parseInt(callback[0].case) + 1)).substr(-4), 0, 'New ticket', bot.config.category).then(channel => {
+        var ticketName = 'ticket-' + (new Array(4).join('0') + (parseInt(callback[0].case) + 1)).substr(-4);
+        msg.channel.guild.createChannel(ticketName, 0, 'New ticket', bot.config.category).then(channel => {
           channel.editPermission(msg.channel.guild.id, 0, 3072, "role", "New Ticket");
           let Support = msg.channel.guild.roles.find(role => role.name === "Support Team");
           channel.editPermission(Support.id, 3072, 0, "role", "New Ticket");
           channel.editPermission(msg.author.id, 3072, 0, "member", "New Ticket");
-          // channel.editPosition(0);
+          console.log("New ticket: " + ticketName + " by " + msg.author.id);
           r.table('tickets').insert({
             user: msg.author.id,
             case: (new Array(4).join('0') + (parseInt(callback[0].case) + 1)).substr(-4),
             id: channel.id
           }).run();
-          // console.log(msg.author);
-          //448164725990359040
           msg.channel.createMessage({
             embed: {
               description: `:white_check_mark: The channel <#${channel.id}> has been created for you.`
@@ -74,7 +62,6 @@ module.exports = {
               ]
             }
           }).then(ticket => {
-            channel.createMessage(`<@${msg.author.id}> Please read the above message before reporting your issue or asking your question below.`);
             let id = ticket.channel.name.split("-").slice(-1)[0];
             ticket.channel.edit({ topic: 'Message: ' + (args.length > 0 ? args.join(' ') : 'None') });
             r.table('chatlogs').get(ticket.channel.id).run((err, callback) => {
@@ -102,6 +89,7 @@ module.exports = {
                 r.table('chatlogs').get(msg.channel.id).update(callback).run();
               }
             });
+            channel.createMessage(`<@${msg.author.id}> Please read the above message before reporting your issue or asking your question below.`);
           }).catch((err) => {
             bot.error(err.stack);
             msg.channel.createMessage(':x: | An error has occurred!');
