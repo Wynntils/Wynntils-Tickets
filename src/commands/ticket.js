@@ -50,7 +50,8 @@ module.exports = {
                 `Hello, <@${msg.author.id}>.\n\n` +
                 'Thank you for reaching out to us!\n\n' +
                 'If you are requesting for support, please describe what you are unsure of and, if possible, how we can assist you.\n\n' +
-                'If you are reporting a bug/glitch, please describe the issue and upload any relevant file (screenshots, videos, execution logs, etc.) that may allow us to know exactly what the issue is.\n\n' +
+                'If you are reporting a technical issue regarding the mod, please ensure you are on the latest version or build of the release stream you are on prior to reporting the issue.\n\n' +
+                'If you are reporting a bug or a glitch, please describe the issue and upload any relevant file (screenshots, videos, execution logs, etc.) that may allow us to know exactly what the issue is.\n\n' +
                 'If you are reporting a crash, please describe what you were doing that had triggered the crash and upload the text file containing the crash report. This can be found in the crash-reports subfolder of the folder that contains all other files relating to Minecraft. Most people have their crash-reports subfolder in their .minecraft folder.\n\n' +
                 'Please note that we may or may not respond depending on the subject of the ticket and the information you have provided.\n\n' +
                 '-Wynntils Support',
