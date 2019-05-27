@@ -16,7 +16,11 @@ module.exports = {
         r.table('tickets').get(callback.id).update({closed: true}).run();
         msg.channel.delete();
         msg.channel.guild.fetchAllMembers();
-        msg.channel.guild.members.find(m => m.user.id === callback.user).user.getDMChannel().then((channel) => {
+        var ticketOwner = msg.channel.guild.members.find(m => m.user.id === callback.user);
+        if(typeof ticketOwner == "undefined") { // If the user has left the server
+          return;
+        }
+        ticketOwner.user.getDMChannel().then((channel) => {
           r.table('chatlogs').get(msg.channel.id).run((err, callback) => {
             var ticketURL = bot.config.baseurl + '/t/' + callback.secret;
             let modChannel = msg.channel.guild.channels.find(channel => channel.id === '448164725990359040');
