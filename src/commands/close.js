@@ -12,7 +12,7 @@ module.exports = {
     if (msg.channel.parentID !== bot.config.category) return;
     r.table('tickets').get(msg.channel.id).run((err, callback) => {
       if (!callback) return;
-      if ((msg.author.id === callback.user || msg.member.roles.find(r => r.id === '521318643024527383'))) {
+      if ((msg.author.id === callback.user || msg.member.roles.includes('521318643024527383'))) {
         r.table('tickets').get(callback.id).update({closed: true}).run();
         msg.channel.delete();
         msg.channel.guild.fetchAllMembers();
