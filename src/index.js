@@ -149,6 +149,7 @@ function checkAuth(req, res, next) {
 
 let r = rethink({
   db: 'ticketbot',
+  host: '91.121.171.170',
   password: config.password
 });
 

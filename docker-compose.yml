@@ -1,0 +1,16 @@
+version: "2"
+
+services:
+  node:
+    image: "node:11"
+    container_name: "ticket-bot"
+    working_dir: /home/node/app
+    network_mode: bridge
+    restart: always
+    environment:
+      - NODE_ENV=production
+    volumes:
+      - ./:/home/node/app
+    expose:
+      - "3001"
+    command: [sh, -c, "npm install && node src/index.js"]

@@ -63,7 +63,9 @@ module.exports = {
             });
             channel.createMessage(embed).catch((err) => {
               bot.error(err.stack);
-              msg.channel.createMessage(':x: | An error has occurred!');
+              msg.channel.createMessage(':x: | An error has occurred!').catch((err) => {
+                bot.error(err.stack);
+              });
             });
           });
         });

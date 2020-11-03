@@ -1,12 +1,16 @@
 extends default
 
-block header
-
 block content
     div.ticket
-        h1.ticketName #{ticket.name}
         each chat in chatlog.logs
             p.chatline
                 span.user #{chat.user}
+                - if (typeof(chat.deleted) !== 'undefined'){
+                s  #{chat.content}
+                -}else{
                 |  #{chat.content}
-        a(href='/info') << Back
+                -}
+                - if (typeof(chat.attachments) !== 'undefined'){
+                each attachment in chat.attachments
+                    a.attachment(href=attachment.url title=attachment.filename) #{attachment.filename}
+                - }

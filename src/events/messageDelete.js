@@ -1,5 +1,6 @@
 module.exports = (bot, r) => {
     bot.on('messageDelete', msg => {
+        if(typeof msg.author == "undefined") console.log("Something went wrong here...", msg);
         if (msg.author.bot) return;
         if (msg.channel.parentID !== bot.config.category) return;
         // console.log('Delete', msg.id);
