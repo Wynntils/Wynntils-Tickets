@@ -109,10 +109,10 @@ body {
   padding: 10px;
 }
 
-p.chatline:nth-child(2n+1).avatar {
+div.chatline:nth-child(2n+1).avatar {
   content: url("https://cdn.discordapp.com/embed/avatars/0.png")
 }
 
-p.chatline:nth-child(2n).avatar {
+div.chatline:nth-child(2n).avatar {
   content: url("https://cdn.discordapp.com/embed/avatars/2.png")
 }

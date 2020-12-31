@@ -3,7 +3,7 @@ extends default
 block content
     div.ticket
         each chat in chatlog.logs
-            p.chatline
+            div.chatline
                 img(src="https://cdn.discordapp.com/embed/avatars/0.png").avatar
                 span.user #{chat.user}
                 - if (typeof(chat.deleted) !== 'undefined'){
