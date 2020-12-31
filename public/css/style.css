@@ -33,6 +33,7 @@ body {
   font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
     Oxygen-Sans, Ubuntu, Cantarell, "Helvetica Neue", sans-serif;
   /* [2] */
+  background-color: var(--dark-but-not-black);
 }
 
 /* VARIABLES
@@ -93,6 +94,7 @@ body {
   margin-top: 5px;
   margin-bottom: 5px;
   background-color: var(--dark-but-not-black);
+  color: white;
 }
 
 .avatar {
@@ -107,10 +109,10 @@ body {
   padding: 10px;
 }
 
-p.chatline:nth-child(2n+1) img {
+p.chatline:nth-child(2n+1).avatar {
   content: url("https://cdn.discordapp.com/embed/avatars/0.png")
 }
 
-p.chatline:nth-child(2n) img {
+p.chatline:nth-child(2n).avatar {
   content: url("https://cdn.discordapp.com/embed/avatars/2.png")
 }

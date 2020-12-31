@@ -4,7 +4,7 @@ block content
     div.ticket
         each chat in chatlog.logs
             p.chatline
-                img(src="").avatar
+                img(src="https://cdn.discordapp.com/embed/avatars/0.png").avatar
                 span.user #{chat.user}
                 - if (typeof(chat.deleted) !== 'undefined'){
                 s  #{chat.content}
