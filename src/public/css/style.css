@@ -78,6 +78,8 @@ body {
 .backLink {
 	position: absolute;
 	left: 20px;
+	color: white;
+	text-decoration: none;
 }
 
 .ticket {
