@@ -65,7 +65,7 @@ app.get('/logout', function(req, res) {
     res.redirect('/');
 });
 
-app.get('/info', checkAuth, function (req, res) {
+app.get('/tickets', checkAuth, function (req, res) {
   let userID = req.user.id;
   var userRole;
   r.table('users').get(userID).run((err, callback) => {
