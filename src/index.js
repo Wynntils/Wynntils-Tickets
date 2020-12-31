@@ -73,26 +73,10 @@ app.get('/info', checkAuth, function (req, res) {
     if (userRole === "HELPER" || userRole === "MODERATOR") {
       r.table('tickets').orderBy('case').run((err, callback) => {
         res.render('info', { callback })
-        // let html = '';
-        // let ticketName;
-        // // console.log(callback.length);
-        // for (x in callback) {
-        //   if (callback[x].case === '0') continue;
-        //   if (callback[x].name !== undefined) ticketName = '#' + callback[x].case + ' - ' + escapeHtml(callback[x].name); else ticketName = '#' + callback[x].case;
-        //   // console.log(callback[x]);
-        //   if (callback[x].closed) closed = " - Closed"; else closed = " - Open";
-        // }
       });
     } else if(userRole === "USER"){
       r.table('tickets').getAll(userID, { index: 'user' }).orderBy('case').run((err, callback) => {
-       res.render('info', { callback })
-        // let html = '';
-        // let ticketName;
-        // // console.log(callback.length);
-        // for (x in callback) {
-        //   if (callback[x].name !== undefined) ticketName = '#' + callback[x].case + ' - ' + escapeHtml(callback[x].name); else ticketName = '#' + callback[x].case;
-        //   // console.log(callback[x]);
-        // }
+        res.render('info', { callback })
       });
     } else {
       res.send('User Role not found' + userRole);
