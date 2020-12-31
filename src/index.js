@@ -70,31 +70,29 @@ app.get('/info', checkAuth, function (req, res) {
   var userRole;
   r.table('users').get(userID).run((err, callback) => {
     if (callback !== null) userRole = callback.role; else userRole = 'USER';
-    if (userRole === "SUPPORT") {
+    if (userRole === "HELPER" || userRole === "MODERATOR") {
       r.table('tickets').orderBy('case').run((err, callback) => {
-        let html = '';
-        let ticketName;
-        // console.log(callback.length);
-        for (x in callback) {
-          if (callback[x].case === '0') continue;
-          if (callback[x].name !== undefined) ticketName = '#' + callback[x].case + ' - ' + escapeHtml(callback[x].name); else ticketName = '#' + callback[x].case;
-          // console.log(callback[x]);
-          if (callback[x].closed) closed = " - Closed"; else closed = " - Open";
-          html += '<a href="/ticket/' + callback[x].id + '">View ticket ' + ticketName + `</a>${closed}<br>`;
-        }
-        res.send(html);
+        res.render('info', { callback })
+        // let html = '';
+        // let ticketName;
+        // // console.log(callback.length);
+        // for (x in callback) {
+        //   if (callback[x].case === '0') continue;
+        //   if (callback[x].name !== undefined) ticketName = '#' + callback[x].case + ' - ' + escapeHtml(callback[x].name); else ticketName = '#' + callback[x].case;
+        //   // console.log(callback[x]);
+        //   if (callback[x].closed) closed = " - Closed"; else closed = " - Open";
+        // }
       });
     } else if(userRole === "USER"){
       r.table('tickets').getAll(userID, { index: 'user' }).orderBy('case').run((err, callback) => {
-        let html = '';
-        let ticketName;
-        // console.log(callback.length);
-        for (x in callback) {
-          if (callback[x].name !== undefined) ticketName = '#' + callback[x].case + ' - ' + escapeHtml(callback[x].name); else ticketName = '#' + callback[x].case;
-          // console.log(callback[x]);
-          html += '<a href="/ticket/' + callback[x].id + '">View ticket ' + ticketName + '</a><br>';
-        }
-        res.send(html);
+       res.render('info', { callback })
+        // let html = '';
+        // let ticketName;
+        // // console.log(callback.length);
+        // for (x in callback) {
+        //   if (callback[x].name !== undefined) ticketName = '#' + callback[x].case + ' - ' + escapeHtml(callback[x].name); else ticketName = '#' + callback[x].case;
+        //   // console.log(callback[x]);
+        // }
       });
     } else {
       res.send('User Role not found' + userRole);

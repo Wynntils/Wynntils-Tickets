@@ -1,0 +1,23 @@
+doctype html
+html
+  head
+    title 
+    link(rel='stylesheet', href='/css/style.css')
+    link(rel='stylesheet' type='text/css' href='fonts/font-awesome-4.7.0/css/font-awesome.min.css')
+    meta(name="viewport" content="width=device-width, initial-scale=1")
+  body
+    main
+      block header
+        header.header
+          h1 Wynntils Tickets
+      block content
+        ul.list
+            for (x in callback)
+                li.ticket
+                    - var ticketName
+                    -if (callback[x].name !== undefined) {
+                        ticketName = `#${callback[x].case} - ${callback[x].name}`
+                    } else {
+                        ticketName = `#${callback[x].case}`
+                    }
+                    a(href='/ticket/' + callback[x].id) ticketName
