@@ -11,12 +11,12 @@ html
           h1 Wynntils Tickets
       block content
         ul.list
-            for (x in callback)
+            each ticket in callback
                 li.ticket
                     - var ticketName
                     - if (callback[x].name !== undefined) {
-                        ticketName = `#${callback[x].case} - ${callback[x].name}`
+                        ticketName = `#${ticket.case} - ${ticket.name}`
                     } else {
-                        ticketName = `#${callback[x].case}` 
+                        ticketName = `#${ticket.case}` 
                     }
                     a(href='/ticket/' + callback[x].id) ticketName
