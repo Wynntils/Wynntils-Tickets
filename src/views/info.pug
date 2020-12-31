@@ -13,10 +13,7 @@ html
         ul.list
             each ticket in callback
                 li.ticket
-                    - var ticketName
-                    - if (callback[x].name !== undefined) {
-                        ticketName = `#${ticket.case} - ${ticket.name}`
-                    } else {
-                        ticketName = `#${ticket.case}` 
-                    }
-                    a(href='/ticket/' + callback[x].id) ticketName
+                    - if (ticket.name !== undefined)
+                        a(href='/ticket/' + ticket.id) ##{ticket.case} - #{ticket.name}
+                    - else
+                        a(href='/ticket/' + ticket.id) ##{ticket.case}
