@@ -41,6 +41,7 @@ body {
 :root {
 	--not-quite-black: #23272A;
 	--dark-but-not-black: #2C2F33;
+	--blurple: #7289DA;
 }
 
 /* Header
@@ -54,8 +55,6 @@ body {
 	height: 80px;
 	background-color: var(--not-quite-black);
 	color: #ffffff;
-	position: fixed;
-	top: 0;
 }
 
 .footer {
@@ -117,4 +116,17 @@ body {
 	display: block;
 	padding: 10px;
 	color: white;
+}
+
+.ticketLink {
+	padding-left: 10px;
+}
+
+.ticketLink a {
+	color: white;
+}
+
+.ticketLink a:hover,
+.ticketLink a:visited {
+	color: var(--blurple);
 }

@@ -4,6 +4,7 @@ html
     title 
     link(rel='stylesheet', href='/css/style.css')
     meta(name="viewport" content="width=device-width, initial-scale=1")
+    script(src='https://kit.fontawesome.com/47791c3aa0.js' crossorigin='anonymous')
   body
     main
       block header
@@ -12,8 +13,10 @@ html
       block content
         ul.list
             each ticket in callback
-                li.ticket
+                li.ticketLink
                     - if (ticket.name !== undefined)
-                        a(href='/ticket/' + ticket.id) ##{ticket.case} - #{ticket.name}
+                        li(class=ticket.closed ? "fas.fa-lock" : "fas.fa-lock-open") 
+                        a(href='/ticket/' + ticket.id) View ##{ticket.case} - #{ticket.name}
                     - else
-                        a(href='/ticket/' + ticket.id) ##{ticket.case}
+                        li(class=ticket.closed ? "fas.fa-lock" : "fas.fa-lock-open") 
+                        a(href='/ticket/' + ticket.id) View ##{ticket.case}
