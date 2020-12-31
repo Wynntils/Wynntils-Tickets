@@ -119,7 +119,8 @@ body {
 }
 
 .ticketLink {
-	padding-left: 10px;
+	color: white;
+	padding-left: 20px;
 }
 
 .ticketLink a {

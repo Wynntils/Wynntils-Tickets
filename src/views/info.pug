@@ -15,8 +15,8 @@ html
             each ticket in callback
                 li.ticketLink
                     - if (ticket.name !== undefined)
-                        li(class=ticket.closed ? "fas.fa-lock" : "fas.fa-lock-open") 
+                        li(class=ticket.closed ? "fas fa-lock" : "fas fa-lock-open") 
                         a(href='/ticket/' + ticket.id) View ##{ticket.case} - #{ticket.name}
                     - else
-                        li(class=ticket.closed ? "fas.fa-lock" : "fas.fa-lock-open") 
+                        li(class=ticket.closed ? "fas fa-lock" : "fas fa-lock-open") 
                         a(href='/ticket/' + ticket.id) View ##{ticket.case}
