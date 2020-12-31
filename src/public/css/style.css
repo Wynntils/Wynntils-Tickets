@@ -20,7 +20,8 @@ html {
 *,
 *::before,
 *::after {
-	box-sizing: inherit; /* [1] */
+	box-sizing: inherit;
+	/* [1] */
 	margin: 0;
 	padding: 0;
 }
@@ -30,7 +31,15 @@ html {
 
 body {
 	font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
-		Oxygen-Sans, Ubuntu, Cantarell, "Helvetica Neue", sans-serif; /* [2] */
+		Oxygen-Sans, Ubuntu, Cantarell, "Helvetica Neue", sans-serif;
+	/* [2] */
+}
+
+/* VARIABLES
+	==========================================================================*/
+:root {
+	--not-quite-black: #23272A;
+	--dark-but-not-black: #2C2F33;
 }
 
 /* Header
@@ -42,7 +51,7 @@ body {
 	justify-content: center;
 	align-items: center;
 	height: 80px;
-	background-color: #525286;
+	background-color: var(--not-quite-black);
 	color: #ffffff;
 	position: fixed;
 	top: 0;
@@ -54,7 +63,7 @@ body {
 	justify-content: center;
 	align-items: center;
 	height: 80px;
-	background-color: #525286;
+	background-color: var(--not-quite-black);
 	color: #ffffff;
 	position: fixed;
 	bottom: 0;
@@ -62,6 +71,7 @@ body {
 
 .chatline .user {
 	font-weight: 600;
+	margin-right: 5px;
 }
 
 .backLink {
@@ -78,17 +88,29 @@ body {
 
 .chatline {
 	padding-left: 10px;
+	display: flex;
+	align-items: center;
+	margin-top: 5px;
+	margin-bottom: 5px;
+	background-color: var(--dark-but-not-black);
 }
 
-.attachment{
+.avatar {
+	width: 32px;
+	border-radius: 50%;
+	margin-right: 5px;
+}
+
+.attachment {
 	width: 50%;
-    display: block;
-    padding: 10px;
+	display: block;
+	padding: 10px;
 }
 
-p.chatline:nth-child(2n+1) {
-  background-color: lightgray;
+p.chatline:nth-child(2n+1) img {
+	content: url("https://cdn.discordapp.com/embed/avatars/0.png")
 }
-p.chatline:nth-child(2n) {
-  background-color: aliceblue;
+
+p.chatline:nth-child(2n) img {
+	content: url("https://cdn.discordapp.com/embed/avatars/2.png")
 }

@@ -13,82 +13,104 @@
 /* RESET
    ========================================================================== */
 
-   html {
-    box-sizing: border-box;
-  }
+html {
+  box-sizing: border-box;
+}
 
-  *,
-  *::before,
-  *::after {
-    box-sizing: inherit; /* [1] */
-    margin: 0;
-    padding: 0;
-  }
+*,
+*::before,
+*::after {
+  box-sizing: inherit;
+  /* [1] */
+  margin: 0;
+  padding: 0;
+}
 
-  /* FONTS
-     ========================================================================== */
+/* FONTS
+   ========================================================================== */
 
-  body {
-    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
-      Oxygen-Sans, Ubuntu, Cantarell, "Helvetica Neue", sans-serif; /* [2] */
-  }
+body {
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
+    Oxygen-Sans, Ubuntu, Cantarell, "Helvetica Neue", sans-serif;
+  /* [2] */
+}
 
-  /* Header
-     ========================================================================== */
+/* VARIABLES
+	==========================================================================*/
+:root {
+  --not-quite-black: #23272A;
+  --dark-but-not-black: #2C2F33;
+}
 
-  .header {
-    width: 100%;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    height: 80px;
-    background-color: #525286;
-    color: #ffffff;
-    position: fixed;
-    top: 0;
-  }
+/* Header
+   ========================================================================== */
 
-  .footer {
-    width: 100%;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    height: 80px;
-    background-color: #525286;
-    color: #ffffff;
-    position: fixed;
-    bottom: 0;
-  }
+.header {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 80px;
+  background-color: var(--not-quite-black);
+  color: #ffffff;
+  position: fixed;
+  top: 0;
+}
 
-  .chatline .user {
-    font-weight: 600;
-  }
+.footer {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 80px;
+  background-color: var(--not-quite-black);
+  color: #ffffff;
+  position: fixed;
+  bottom: 0;
+}
 
-  .backLink {
-    position: absolute;
-    left: 20px;
-  }
+.chatline .user {
+  font-weight: 600;
+  margin-right: 5px;
+}
 
-  .ticket {
-    height: 100%;
-    width: 100%;
-    margin-bottom: 80px;
-    margin-top: 80px;
-  }
+.backLink {
+  position: absolute;
+  left: 20px;
+}
 
-  .chatline {
-    padding-left: 10px;
-  }
+.ticket {
+  height: 100%;
+  width: 100%;
+  margin-bottom: 80px;
+  margin-top: 80px;
+}
 
-  .attachment{
-    width: 50%;
-      display: block;
-      padding: 10px;
-  }
+.chatline {
+  padding-left: 10px;
+  display: flex;
+  align-items: center;
+  margin-top: 5px;
+  margin-bottom: 5px;
+  background-color: var(--dark-but-not-black);
+}
 
-  p.chatline:nth-child(2n+1) {
-    background-color: lightgray;
-  }
-  p.chatline:nth-child(2n) {
-    background-color: aliceblue;
-  }
+.avatar {
+  width: 32px;
+  border-radius: 50%;
+  margin-right: 5px;
+}
+
+.attachment {
+  width: 50%;
+  display: block;
+  padding: 10px;
+}
+
+p.chatline:nth-child(2n+1) img {
+  content: url("https://cdn.discordapp.com/embed/avatars/0.png")
+}
+
+p.chatline:nth-child(2n) img {
+  content: url("https://cdn.discordapp.com/embed/avatars/2.png")
+}
