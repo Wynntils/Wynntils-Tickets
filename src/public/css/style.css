@@ -88,6 +88,7 @@ body {
 }
 
 .chatline {
+	padding-top: 5px;
 	padding-left: 10px;
 	display: flex;
 	align-items: center;
@@ -95,6 +96,12 @@ body {
 	margin-bottom: 5px;
 	background-color: var(--dark-but-not-black);
 	color: white;
+}
+
+.content {
+	display: flex;
+	flex-direction: column;
+	margin-left: 10px;
 }
 
 .avatar {
@@ -107,12 +114,4 @@ body {
 	width: 50%;
 	display: block;
 	padding: 10px;
-}
-
-div.chatline:nth-child(2n+1).avatar {
-	content: url("https://cdn.discordapp.com/embed/avatars/0.png")
-}
-
-div.chatline:nth-child(2n).avatar {
-	content: url("https://cdn.discordapp.com/embed/avatars/2.png")
 }
