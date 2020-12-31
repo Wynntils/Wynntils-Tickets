@@ -57,7 +57,7 @@ app.use(express.static(__dirname + '/public'));
 app.get('/', passport.authenticate('discord', { scope: scopes }), function (req, res) { });
 
 app.get('/callback',
-    passport.authenticate('discord', { failureRedirect: '/' }), function(req, res) { res.redirect('/info') } // auth success
+    passport.authenticate('discord', { failureRedirect: '/' }), function(req, res) { res.redirect('/tickets') } // auth success
 );
 
 app.get('/logout', function(req, res) {
