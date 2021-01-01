@@ -12,17 +12,12 @@ html
           h1 Wynntils Tickets
       block content
         h4 All tickets
-        div.list
+        ul.list
           each ticket in callback
-            div.card
-              div.card_content
-                h1.card_header 
-                i.fas.fa-ticket-alt 
-                  | #{ticket.name}
-                - if (ticket.name !==undefined)
-                  p.card_information Case: #{ticket.case}
-                  p.card_information Ticket Name: #{ticket.name}
-                - else
-                  p.card_information Case: #{ticket.case}
-                a.button(href='/ticket/' + ticket.id) View Ticket
-
+            li.ticketLink
+              - if (ticket.name !== undefined)
+                  i(class=ticket.closed ? "fas fa-lock" : "fas fa-lock-open") 
+                  a.ticketLink(href='/ticket/' + ticket.id) View ##{ticket.case} - #{ticket.name}
+              - else
+                  li(class=ticket.closed ? "fas fa-lock" : "fas fa-lock-open") 
+                  a.ticketLink(href='/ticket/' + ticket.id) View ##{ticket.case}
