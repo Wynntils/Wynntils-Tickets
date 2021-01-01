@@ -95,7 +95,7 @@ app.get('/ticket/:ticketID', checkAuth, function (req, res) {
   r.table('chatlogs').get(req.params.ticketID).run((err, callback) => {
     chatlog = callback;
     let options = {
-      url: `https://discord.com/api/user/${callback.user}`,
+      url: `https://discord.com/api/user/${chatlog.user}`,
       json: true,
       headers: {
         "Authorization": `Bot ${config.token}`
