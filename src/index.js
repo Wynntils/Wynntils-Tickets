@@ -96,9 +96,6 @@ app.get('/ticket/:ticketID', checkAuth, async function (req, res) {
   r.table('chatlogs').get(req.params.ticketID).run(async (err, callback) => {
     chatlog = callback;
 
-    let chatlogId = BigInt.asUintN(64, chatlog.id);
-    let dateBits = Number(chatlogId >> 22n);
-    let timestamp = new Date(dateBits + 1420070400000);
 
     for (var i = chatlog.logs.length - 1; i >= 0; i--) {
       let userID = chatlog.logs[i].userID
@@ -124,8 +121,7 @@ app.get('/ticket/:ticketID', checkAuth, async function (req, res) {
       title: `Ticket ${ticketName}`,
         ticket,
         chatlog,
-        avatars,
-        timestamp
+        avatars
     });
   });
 });
