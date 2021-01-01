@@ -134,4 +134,5 @@ body {
 
 .list {
 	padding: 5rem;
+	list-style-type: none;
 }

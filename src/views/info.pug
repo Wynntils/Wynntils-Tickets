@@ -14,10 +14,10 @@ html
         h4 All tickets
         ul.list
           each ticket in callback
-            li.ticketLink
+            li
               - if (ticket.name !== undefined)
-                  i(class=ticket.closed ? "fas fa-lock" : "fas fa-lock-open") 
+                  i(class=ticket.closed ? "fas fa-lock" : "fas fa-lock-open" style={color: "white";}) 
                   a.ticketLink(href='/ticket/' + ticket.id) View ##{ticket.case} - #{ticket.name}
               - else
-                  li(class=ticket.closed ? "fas fa-lock" : "fas fa-lock-open") 
+                  i(class=ticket.closed ? "fas fa-lock" : "fas fa-lock-open" style={color: "white";}) 
                   a.ticketLink(href='/ticket/' + ticket.id) View ##{ticket.case}
