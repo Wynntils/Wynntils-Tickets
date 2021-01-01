@@ -11,7 +11,9 @@ block content
                 img(src=`https://cdn.discordapp.com/embed/avatars/${num}.png`).avatar
                 - }
                 div.content    
-                    span.user #{chat.user}
+                    span.user 
+                        | #{chat.user} 
+                    small #{timestamp}
                     - if (typeof(chat.deleted) !== 'undefined'){
                     s  #{chat.content}
                     -}else{
@@ -19,7 +21,7 @@ block content
                     -}
                     - if (typeof(chat.attachments) !== 'undefined'){
                     each attachment in chat.attachments
-                        a.attachment(href=attachment.url title=attachment.filename) 
+                        div.attachment
                         i.fas.fa-file-alt(style="padding-right:5px")
-                        #{attachment.filename}
+                        a(href=attachment.url title=attachment.filename) #{attachment.filename}
                     - }
