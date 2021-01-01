@@ -20,7 +20,7 @@ const CLIENT_ID = config.CLIENT_ID;
 const CLIENT_SECRET = config.CLIENT_SECRET;
 const CALLBACK_URL = config.CALLBACK_URL;
 
-const request = require('request')
+const got = require('got')
 
 passport.use(new DiscordStrategy({
     clientID: CLIENT_ID,
@@ -92,29 +92,32 @@ app.get('/ticket/:ticketID', checkAuth, async function (req, res) {
     if (callback.name !== undefined) ticketName = '#' + callback.case + ' - ' + escapeHtml(callback.name); else ticketName = '#' + callback.case;
     ticket = callback;
   });
-  r.table('chatlogs').get(req.params.ticketID).run((err, callback) => {
+  r.table('chatlogs').get(req.params.ticketID).run(async (err, callback) => {
     chatlog = callback;
-    let options = {
-      url: `https://discord.com/api/user/${chatlog.user}`,
-      json: true,
-      headers: {
-        "Authorization": `Bot ${config.token}`
+    for (var i = chatlog.logs.length - 1; i >= 0; i--) {
+      let userID = chatlog.logs[i].id
+      if(typeof avatars[userID] == "undefined"){
+        try {
+          const data = await got(`https://discord.com/api/user/${chatlog.user}`, {
+            responseType: 'json',
+            headers: {
+              "Authorization": `Bot ${config.token}`
+            }
+          }
+          );
+          avatars[userID] = data.avatar;
+        } catch (error) {
+          console.log(error.response.body);
+          //=> 'Internal server error ...'
+        }
       }
     }
-    request.get(options, (err, res, body) => {
-      if (!error && res.statusCode == 200) {
-        const data = await JSON.parse(body);
-        avatar = await data.avatar;
-      } else {
-        avatar = "https://cdn.discordapp.com/embed/avatars/0.png";
-      }
-    });
 
     res.render('ticket', {
       title: `Ticket ${ticketName}`,
         ticket,
         chatlog,
-        avatar
+        avatars
     });
   });
 });
