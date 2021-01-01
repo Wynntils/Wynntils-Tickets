@@ -87,7 +87,8 @@ app.get('/tickets', checkAuth, function (req, res) {
 });
 
 app.get('/ticket/:ticketID', checkAuth, async function (req, res) {
-  var ticket, chatlog, avatars;
+  var ticket, chatlog;
+  var avatars = [];
   r.table('tickets').get(req.params.ticketID).run((err, callback) => {
     if (callback.name !== undefined) ticketName = '#' + callback.case + ' - ' + escapeHtml(callback.name); else ticketName = '#' + callback.case;
     ticket = callback;
@@ -107,6 +108,7 @@ app.get('/ticket/:ticketID', checkAuth, async function (req, res) {
           );
           avatars[userID] = data.avatar;
         } catch (error) {
+          avatars[userID] = 'error';
           console.log(error.response.body);
           //=> 'Internal server error ...'
         }
