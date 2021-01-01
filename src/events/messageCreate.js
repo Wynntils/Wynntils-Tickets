@@ -31,6 +31,7 @@ module.exports = (bot, r) => {
               {
                 id: msg.id,
                 user: msg.author.username + '#' + msg.author.discriminator,
+                userID: msg.author.id,
                 content: msg.content
               }
             ]
@@ -40,6 +41,7 @@ module.exports = (bot, r) => {
         callback.logs.push({
           id: msg.id,
           user: msg.author.username + '#' + msg.author.discriminator,
+          userID: msg.author.id,
           content: msg.content
         });
         r.table('chatlogs').get(msg.channel.id).update(callback).run();
@@ -64,6 +66,7 @@ module.exports = (bot, r) => {
                 id: msg.id,
                 user: msg.author.username + '#' + msg.author.discriminator,
                 content: msg.content,
+                userID: msg.author.id,
                 attachments: msg.attachments
               }
             ]
@@ -73,6 +76,7 @@ module.exports = (bot, r) => {
         callback.logs.push({
           id: msg.id,
           user: msg.author.username + '#' + msg.author.discriminator,
+          userID: msg.author.id,
           content: msg.content,
           attachments: msg.attachments
         });

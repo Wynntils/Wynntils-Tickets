@@ -4,7 +4,12 @@ block content
     div.ticket
         each chat in chatlog.logs
             div.chatline
-                img(src=`https://cdn.discordapp.com/avatars/${chat.id}/${avatars[chat.id]}.png`).avatar
+                - if (typeof(chat.userID) !== 'undefined' && typeof(avatars[chat.userID]) !== 'undefined') { 
+                img(src=`https://cdn.discordapp.com/avatars/${chat.id}/${avatars[chat.userID]}.png`).avatar
+                - } else { 
+                - var num = chat.user.substr(-1) >= 5 ? chat.user.substr(-1) -5 : chat.user.substr(-1);
+                img(src=`https://cdn.discordapp.com/embed/avatars/${num}.png`).avatar
+                - }
                 div.content    
                     span.user #{chat.user}
                     - if (typeof(chat.deleted) !== 'undefined'){

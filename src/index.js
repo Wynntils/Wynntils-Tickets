@@ -96,7 +96,8 @@ app.get('/ticket/:ticketID', checkAuth, async function (req, res) {
   r.table('chatlogs').get(req.params.ticketID).run(async (err, callback) => {
     chatlog = callback;
     for (var i = chatlog.logs.length - 1; i >= 0; i--) {
-      let userID = chatlog.logs[i].id
+      let userID = chatlog.logs[i].userID
+      if(typeof userID == "undefined") continue;
       if(typeof avatars[userID] == "undefined"){
         try {
           const data = await got(`https://discord.com/api/users/${userID}`, {
@@ -108,7 +109,6 @@ app.get('/ticket/:ticketID', checkAuth, async function (req, res) {
           );
           avatars[userID] = data.body.avatar;
         } catch (error) {
-          avatars[userID] = 'error';
           console.log(error.response.body);
           //=> 'Internal server error ...'
         }
@@ -127,10 +127,30 @@ app.get('/ticket/:ticketID', checkAuth, async function (req, res) {
 app.get('/t/:secret', (req, res) => {
   if (!req.params.secret || req.params.secret === undefined) return res.send('Invalid secret');
   var ticket, chatlog;
-  r.table('chatlogs').getAll(req.params.secret, { index: 'secret' }).run((err, callback) => {
+  r.table('chatlogs').getAll(req.params.secret, { index: 'secret' }).run(async (err, callback) => {
     if (callback[0] === undefined) return res.send('Invalid secret');
     callback = callback[0];
     chatlog = callback;
+    var avatars = [];
+    for (var i = chatlog.logs.length - 1; i >= 0; i--) {
+      let userID = chatlog.logs[i].userID
+      if(typeof userID == "undefined") continue;
+      if(typeof avatars[userID] == "undefined"){
+        try {
+          const data = await got(`https://discord.com/api/users/${userID}`, {
+            responseType: 'json',
+            headers: {
+              "Authorization": `Bot ${config.token}`
+            }
+          }
+          );
+          avatars[userID] = data.body.avatar;
+        } catch (error) {
+          console.log(error.response.body);
+          //=> 'Internal server error ...'
+        }
+      }
+    }
     // // console.log(callback.id);
     r.table('tickets').get(callback.id).run((err, cb) => {
       // // console.log(cb);
@@ -139,7 +159,8 @@ app.get('/t/:secret', (req, res) => {
       res.render('ticket', {
         title: `Ticket ${ticketName}`,
           ticket,
-          chatlog
+          chatlog,
+          avatars
       });
     });
   });
