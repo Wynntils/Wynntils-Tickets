@@ -16,8 +16,8 @@ html
           each ticket in callback
             li
               - if (ticket.name !== undefined)
-                  i(class=ticket.closed ? "fas fa-lock" : "fas fa-lock-open" style={color: "white";}) 
+                  i(class=ticket.closed ? "fas fa-lock" : "fas fa-lock-open" style={color: "white"}) 
                   a.ticketLink(href='/ticket/' + ticket.id) View ##{ticket.case} - #{ticket.name}
               - else
-                  i(class=ticket.closed ? "fas fa-lock" : "fas fa-lock-open" style={color: "white";}) 
+                  i(class=ticket.closed ? "fas fa-lock" : "fas fa-lock-open" style={color: "white"}) 
                   a.ticketLink(href='/ticket/' + ticket.id) View ##{ticket.case}
