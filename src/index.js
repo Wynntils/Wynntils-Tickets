@@ -70,7 +70,7 @@ app.get('/tickets', checkAuth, function (req, res) {
   var userRole;
   r.table('users').get(userID).run((err, callback) => {
     if (callback !== null) userRole = callback.role; else userRole = 'USER';
-    if (userRole === "HELPER" || userRole === "MODERATOR") {
+    if (userRole === "SUPPORT") {
       r.table('tickets').orderBy('case').run((err, callback) => {
         res.render('info', { callback })
       });
