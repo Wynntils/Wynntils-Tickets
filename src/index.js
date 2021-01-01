@@ -20,6 +20,8 @@ const CLIENT_ID = config.CLIENT_ID;
 const CLIENT_SECRET = config.CLIENT_SECRET;
 const CALLBACK_URL = config.CALLBACK_URL;
 
+const request = require('request')
+
 passport.use(new DiscordStrategy({
     clientID: CLIENT_ID,
     clientSecret: CLIENT_SECRET,
@@ -85,20 +87,32 @@ app.get('/tickets', checkAuth, function (req, res) {
 });
 
 app.get('/ticket/:ticketID', checkAuth, function (req, res) {
-  // res.send(req.params)
-  var ticket, chatlog;
+  var ticket, chatlog, avatar;
   r.table('tickets').get(req.params.ticketID).run((err, callback) => {
     if (callback.name !== undefined) ticketName = '#' + callback.case + ' - ' + escapeHtml(callback.name); else ticketName = '#' + callback.case;
     ticket = callback;
   });
   r.table('chatlogs').get(req.params.ticketID).run((err, callback) => {
-    // console.log(err);
-    // res.send(`<h1>Ticket ${name}</h1><br>` + callback.logs.map(m => '<b>[' + escapeHtml(m.user) + ']</b>: ' + escapeHtml(m.content)).join('<br/>'));
     chatlog = callback;
+    let options = {
+      url: `https://discord.com/api/user/${callback.user}`,
+      json: true,
+      headers: {
+        "Authorization": `Bot ${config.token}`
+      }
+    }
+    request.get(options, (err, res, body) => {
+      if (!error && res.statusCode == 200) {
+        const data = JSON.parse(body);
+        avatar = data.avatar;
+      } 
+    })
+
     res.render('ticket', {
       title: `Ticket ${ticketName}`,
         ticket,
-        chatlog
+        chatlog,
+        avatar
     });
   });
 });
