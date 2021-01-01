@@ -123,16 +123,16 @@ body {
 	padding-left: 20px;
 }
 
-.ticketLink a {
+.ticketLink {
 	color: white;
 }
 
-.ticketLink a:hover,
-.ticketLink a:visited {
+.ticketLink:hover,
+.ticketLink:visited {
 	color: var(--blurple);
 }
 
 .list {
-	padding: 5rem;
+	padding: 10px;
 	list-style-type: none;
 }

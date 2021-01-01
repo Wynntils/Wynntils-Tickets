@@ -11,10 +11,9 @@ html
         header.header
           h1 Wynntils Tickets
       block content
-        h4 All tickets
         ul.list
           each ticket in callback
-            li
+            li(style='padding-bottom: 10px')
               - if (ticket.name !== undefined)
                   i(class=ticket.closed ? "fas fa-lock" : "fas fa-lock-open" style={color: "white"}) 
                   a.ticketLink(href='/ticket/' + ticket.id) View ##{ticket.case} - #{ticket.name}
