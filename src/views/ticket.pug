@@ -13,10 +13,9 @@ block content
                 div.content    
                     span.user 
                         | #{chat.user} 
-                        script.
-                            var chatlogId = BigInt.asUintN(64, chat.id);
-                            var dateBits = Number(chatlogId >> 22);
-                            var date = new Date(dateBits + 1420070400000)
+                        - var chatlogId = BigInt.asUintN(64, chat.id);
+                        - var dateBits = Number(chatlogId >> 22);
+                        - var date = new Date(dateBits + 1420070400000)
                         small #{date}
                     - if (typeof(chat.deleted) !== 'undefined'){
                     s  #{chat.content}
