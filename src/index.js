@@ -86,7 +86,7 @@ app.get('/tickets', checkAuth, function (req, res) {
   });
 });
 
-app.get('/ticket/:ticketID', checkAuth, function (req, res) {
+app.get('/ticket/:ticketID', checkAuth, async function (req, res) {
   var ticket, chatlog, avatar;
   r.table('tickets').get(req.params.ticketID).run((err, callback) => {
     if (callback.name !== undefined) ticketName = '#' + callback.case + ' - ' + escapeHtml(callback.name); else ticketName = '#' + callback.case;
@@ -103,10 +103,12 @@ app.get('/ticket/:ticketID', checkAuth, function (req, res) {
     }
     request.get(options, (err, res, body) => {
       if (!error && res.statusCode == 200) {
-        const data = JSON.parse(body);
-        avatar = data.avatar;
-      } 
-    })
+        const data = await JSON.parse(body);
+        avatar = await data.avatar;
+      } else {
+        avatar = "https://cdn.discordapp.com/embed/avatars/0.png";
+      }
+    });
 
     res.render('ticket', {
       title: `Ticket ${ticketName}`,

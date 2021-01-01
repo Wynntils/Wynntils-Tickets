@@ -4,7 +4,7 @@ block content
     div.ticket
         each chat in chatlog.logs
             div.chatline
-                img(src=`https://cdn.discordapp.com/avatars/${chat.user}/${avatar}.png`).avatar
+                img(src=`https://cdn.discordapp.com/avatars/${chat.id}/${avatar}.png`).avatar
                 div.content    
                     span.user #{chat.user}
                     - if (typeof(chat.deleted) !== 'undefined'){
@@ -14,5 +14,7 @@ block content
                     -}
                     - if (typeof(chat.attachments) !== 'undefined'){
                     each attachment in chat.attachments
-                        a.attachment(href=attachment.url title=attachment.filename) #{attachment.filename}
+                        a.attachment(href=attachment.url title=attachment.filename) 
+                        i.fas.fa-file-alt(style="padding-right:5px")
+                        #{attachment.filename}
                     - }
