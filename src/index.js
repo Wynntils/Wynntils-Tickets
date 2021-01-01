@@ -99,7 +99,7 @@ app.get('/ticket/:ticketID', checkAuth, async function (req, res) {
       let userID = chatlog.logs[i].id
       if(typeof avatars[userID] == "undefined"){
         try {
-          const data = await got(`https://discord.com/api/users/${chatlog.user}`, {
+          const data = await got(`https://discord.com/api/users/${chatlog.id}`, {
             responseType: 'json',
             headers: {
               "Authorization": `Bot ${config.token}`
