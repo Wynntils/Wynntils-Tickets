@@ -20,7 +20,7 @@ const CLIENT_ID = config.CLIENT_ID;
 const CLIENT_SECRET = config.CLIENT_SECRET;
 const CALLBACK_URL = config.CALLBACK_URL;
 
-const got = require('got')
+const got = require('got');
 
 passport.use(new DiscordStrategy({
     clientID: CLIENT_ID,
@@ -106,7 +106,7 @@ app.get('/ticket/:ticketID', checkAuth, async function (req, res) {
             }
           }
           );
-          avatars[userID] = data.avatar;
+          avatars[userID] = data.body.avatar;
         } catch (error) {
           avatars[userID] = 'error';
           console.log(error.response.body);
