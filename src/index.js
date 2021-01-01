@@ -87,7 +87,7 @@ app.get('/tickets', checkAuth, function (req, res) {
 });
 
 app.get('/ticket/:ticketID', checkAuth, async function (req, res) {
-  var ticket, chatlog, avatar;
+  var ticket, chatlog, avatars;
   r.table('tickets').get(req.params.ticketID).run((err, callback) => {
     if (callback.name !== undefined) ticketName = '#' + callback.case + ' - ' + escapeHtml(callback.name); else ticketName = '#' + callback.case;
     ticket = callback;
