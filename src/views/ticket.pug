@@ -15,7 +15,7 @@ block content
                         | #{chat.user} 
                         - var chatlogId = chat.id; 
                         - var date = new Date(Number(BigInt.asUintN(64, chatlogId) >> BigInt.asUintN(5, "22")) + 1420070400000)
-                        small #{date}
+                        small(style="color: #99AAB5") #{date.getDay()}/#{date.getMonth()}/#{date.getYear()} at #{date.getHours()}:#{date.getMinutes()}
                     - if (typeof(chat.deleted) !== 'undefined'){
                     s  #{chat.content}
                     -}else{
