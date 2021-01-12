@@ -5,7 +5,7 @@ block content
         each chat in chatlog.logs
             div.chatline
                 - if (typeof(chat.userID) !== 'undefined' && typeof(avatars[chat.userID]) !== 'undefined') { 
-                img(src=`https://cdn.discordapp.com/avatars/${chat.id}/${avatars[chat.userID]}.png`).avatar
+                img(src=`https://cdn.discordapp.com/avatars/${chat.userID}/${avatars[chat.userID]}.png`).avatar
                 - } else { 
                 - var num = chat.user.substr(-1) >= 5 ? chat.user.substr(-1) -5 : chat.user.substr(-1);
                 img(src=`https://cdn.discordapp.com/embed/avatars/${num}.png`).avatar
@@ -15,7 +15,7 @@ block content
                         | #{chat.user} 
                         - var chatlogId = chat.id; 
                         - var date = new Date(Number(BigInt.asUintN(64, chatlogId) >> BigInt.asUintN(5, "22")) + 1420070400000)
-                        small(style="color: #99AAB5") #{date.getDay()}/#{date.getMonth()}/#{date.getFullYear()} at #{date.getHours()}:#{date.getMinutes()}
+                        small(style="color: #99AAB5") #{date.getDay().toString().padStart(2, "0")}/#{(date.getMonth()+1).toString().padStart(2, "0")}/#{date.getFullYear()} at #{date.getHours().toString().padStart(2, "0")}:#{date.getMinutes().toString().padStart(2, "0")}
                     - if (typeof(chat.deleted) !== 'undefined'){
                     s  #{chat.content}
                     -}else{
