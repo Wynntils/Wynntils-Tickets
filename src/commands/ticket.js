@@ -76,6 +76,7 @@ module.exports = {
                       {
                         id: msg.id,
                         user: msg.author.username + '#' + msg.author.discriminator,
+                        userID: msg.author.id,
                         content: msg.content
                       }
                     ]
@@ -85,6 +86,7 @@ module.exports = {
                 callback.logs.push({
                   id: msg.id,
                   user: msg.author.username + '#' + msg.author.discriminator,
+                  userID: msg.author.id,
                   content: msg.content
                 });
                 r.table('chatlogs').get(msg.channel.id).update(callback).run();
